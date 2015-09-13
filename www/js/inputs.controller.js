@@ -30,10 +30,18 @@ angular.module('SacredGeometry').controller('InputsController', function ($scope
 			values.push("" + $scope.inputs.dice[i]);
 		}
 
-		var postfixSolution = SacredGeometryService.generatePostfixSolution(values);
-		console.log(postfixSolution);
-		$scope.inputs.solution = SacredGeometryService.postfix2infix(postfixSolution);
+		var postfixSolution = $scope.generatePostfixSolution(values);
+		$scope.translateSolution(postfixSolution);
 	};
 
+
+	$scope.generatePostfixSolution = function (values) {
+		return SacredGeometryService.generatePostfixSolution(values);
+	};
+
+
+	$scope.translateSolution = function (postfixSolution) {
+		$scope.inputs.solution = SacredGeometryService.postfix2infix(postfixSolution);
+	};
 
 });
