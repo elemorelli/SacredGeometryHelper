@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+	<title></title>
+
+	<link href="css/ionic.app.css" rel="stylesheet">
+
+	<script src="lib/ionic/js/ionic.bundle.js"></script>
+	<script src="cordova.js"></script>
+
+	<script src="js/app.module.js"></script>
+	<script src="js/inputs.controller.js"></script>
+	<script src="js/sacredgeometry.service.js"></script>
+
+</head>
+<body ng-app="SacredGeometry">
+
+<ion-pane ng-controller="InputsController">
+	<ion-header-bar class="bar-stable">
+		<h1 class="title">Sacred Geometry Helper</h1>
+	</ion-header-bar>
+	<ion-content>
+
+		<ion-item>
+				<span class="input-label">
+					Knowledge (Engineering) Ranks: {{inputs.engineeringRanks}}
+				</span>
+
+			<div class="range">
+				<span>2</span>
+				<input type="range" name="engineeringRanks" min="2" max="20"
+							 ng-model="inputs.engineeringRanks"/>
+				<span>20</span>
+			</div>
+		</ion-item>
+
+		<ion-item>
+				<span class="input-label">
+					Effective Spell level: {{inputs.spellLevel}}
+				</span>
+
+			<div class="range">
+				<span>1</span>
+				<input type="range" name="spellLevel" min="1" max="9"
+							 ng-model="inputs.spellLevel" ng-change="updateNumbersToMatch()"/>
+				<span>9</span>
+			</div>
+		</ion-item>
+
+		<ion-item>
+			<ion-scroll direction="x">
+				<ion-list>
+					<div ng-repeat="n in [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20] track by $index"
+							 style="display: inline-block;">
+						<!--<ion-item ng-show="$index < inputs.engineeringRanks">-->
+						<div ng-show="$index < inputs.engineeringRanks" style="height: 70px; width: 100px;">
+							<div class="vertical-range range">
+								<input type="range" name="dice{{$index}}" min="1" max="6" ng-model="inputs.dice[$index]"
+											 style="width: 200px;">
+							</div>
+							<span>{{inputs.dice[$index]}}</span>
+						</div>
+					</div>
+				</ion-list>
+			</ion-scroll>
+		</ion-item>
+
+		<ion-item>
+			<h2>Numbers to match: {{inputs.numbersToMatch}}</h2>
+		</ion-item>
+
+		<ion-item>
+			<h2>Solution:</h2>
+			<span>{{inputs.solution}}</span>
+		</ion-item>
+
+	</ion-content>
+
+	<ion-footer-bar class="bar-stable">
+		<div class="button-bar">
+			<button class="button" ng-click="random()">Random</button>
+			<button class="button" ng-click="solve()">Solve!</button>
+		</div>
+	</ion-footer-bar>
+</ion-pane>
+</body>
+</html>
