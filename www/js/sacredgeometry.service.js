@@ -64,13 +64,26 @@ angular.module('SacredGeometry').service('SacredGeometryService', function () {
 
 	this.generatePostfixSolution = function (input, spellLevel) {
 
-		input = ["1", "2", "3"];
 		var solutions = this.numbersToMatch(spellLevel);
+		input = ["3", "2", "1"];
+		solutions = [4];
 
-		input.push("+");
-		input.push("-");
+		var postfixSolution = this.getSolution(input, [], solutions)
 
 		return input;
+	};
+
+	this.getSolution = function (left, right, solutions) {
+		if (left.length == 1) {
+			var expression = left.concat(right);
+			var result = rpn2(expression);
+			if (solutions.indexOf(result) > 0) {
+				return expression;
+			}
+		} else {
+			right.push("+");
+		}
+
 	};
 
 	this.rpn1 = function (input) {
@@ -96,21 +109,24 @@ angular.module('SacredGeometry').service('SacredGeometryService', function () {
 
 	this.rpn2 = function (input) {
 		var resultStack = [];
+		var token;
 		for (var i = 0; i < input.length; i++) {
-			if (this.isNumeric(input[i])) {
-				resultStack.push(input[i]);
+			token = input[i];
+			console.log(token);
+			if (this.isNumeric(token)) {
+				resultStack.push(token);
 			} else {
 				var a = resultStack.pop();
 				var b = resultStack.pop();
-				if (input[i] === "+") {
+				if (token === "+") {
 					resultStack.push(parseInt(a) + parseInt(b));
-				} else if (input[i] === "-") {
+				} else if (token === "-") {
 					resultStack.push(parseInt(b) - parseInt(a));
-				} else if (input[i] === "*") {
+				} else if (token === "*") {
 					resultStack.push(parseInt(a) * parseInt(b));
-				} else if (input[i] === "/") {
+				} else if (token === "/") {
 					resultStack.push(parseInt(b) / parseInt(a));
-				} else if (input[i] === "^") {
+				} else if (token === "^") {
 					resultStack.push(Math.pow(parseInt(b), parseInt(a)));
 				}
 			}

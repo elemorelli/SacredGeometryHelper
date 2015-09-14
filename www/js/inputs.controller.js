@@ -44,4 +44,7 @@ angular.module('SacredGeometry').controller('InputsController', function ($scope
 		$scope.inputs.solution = SacredGeometryService.postfix2infix(postfixSolution);
 	};
 
+	$scope.rpn1 = SacredGeometryService.rpn1;
+	$scope.rpn2 = SacredGeometryService.rpn2;
+
 });
