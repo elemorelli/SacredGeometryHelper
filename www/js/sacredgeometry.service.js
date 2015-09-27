@@ -72,7 +72,7 @@ angular.module('SacredGeometry').service('SacredGeometryService', function () {
 		var expression;
 		if (left.length == 1 || operands >= maxOperands) {
 			expression = left.concat(right);
-			var result = this.rpn2(expression);
+			var result = this.resolvePostfixExpression(expression);
 			if (solutions.indexOf(result) >= 0) {
 				return expression;
 			} else {
@@ -107,28 +107,7 @@ angular.module('SacredGeometry').service('SacredGeometryService', function () {
 		return null;
 	};
 
-	this.rpn1 = function (input) {
-		var resultStack = [];
-		var token;
-		while (token = input.shift()) {
-			if (token == +token) {
-				resultStack.push(token);
-			} else {
-				var n2 = resultStack.pop(), n1 = resultStack.pop();
-				var re = /^[\+\-\/\*]$/;
-				if (n1 != +n1 || n2 != +n2 || !re.test(token)) {
-					throw new Error('Invalid expression: ' + input);
-				}
-				resultStack.push(eval(n1 + token + ' ' + n2));
-			}
-		}
-		if (resultStack.length !== 1) {
-			throw new Error('Invalid expression: ' + input);
-		}
-		return resultStack.pop();
-	};
-
-	this.rpn2 = function (input) {
+	this.resolvePostfixExpression = function (input) {
 		var resultStack = [];
 		var token;
 		for (var i = 0; i < input.length; i++) {

@@ -47,7 +47,7 @@ angular.module('SacredGeometry').controller('InputController', function ($scope,
 			$ionicLoading.hide();
 
 			if (postfixSolution != null) {
-				var result = SacredGeometryService.rpn2(postfixSolution);
+				var result = SacredGeometryService.resolvePostfixExpression(postfixSolution);
 				$scope.inputs.solution = $scope.translateSolution(postfixSolution) + " = " + result;
 			} else {
 				$scope.inputs.solution = "No solution found";
