@@ -65,25 +65,46 @@ angular.module('SacredGeometry').service('SacredGeometryService', function () {
 	this.generatePostfixSolution = function (input, spellLevel) {
 
 		var solutions = this.numbersToMatch(spellLevel);
-		input = ["3", "2", "1"];
-		solutions = [4];
-
-		var postfixSolution = this.getSolution(input, [], solutions)
-
-		return input;
+		return this.getSolution(input, [], solutions, 0, input.length - 1);
 	};
 
-	this.getSolution = function (left, right, solutions) {
-		if (left.length == 1) {
-			var expression = left.concat(right);
-			var result = rpn2(expression);
-			if (solutions.indexOf(result) > 0) {
+	this.getSolution = function (left, right, solutions, operands, maxOperands) {
+		var expression;
+		if (left.length == 1 || operands >= maxOperands) {
+			expression = left.concat(right);
+			var result = this.rpn2(expression);
+			if (solutions.indexOf(result) >= 0) {
 				return expression;
+			} else {
+				return null;
 			}
 		} else {
-			right.push("+");
-		}
 
+			right.push("+");
+			expression = this.getSolution(left, right, solutions, operands + 1, maxOperands);
+			if (expression != null)
+				return expression;
+			right.pop();
+
+			right.push("-");
+			expression = this.getSolution(left, right, solutions, operands + 1, maxOperands);
+			if (expression != null)
+				return expression;
+			right.pop();
+
+			right.push("*");
+			expression = this.getSolution(left, right, solutions, operands + 1, maxOperands);
+			if (expression != null)
+				return expression;
+			right.pop();
+
+			right.push("/");
+			expression = this.getSolution(left, right, solutions, operands + 1, maxOperands);
+			if (expression != null)
+				return expression;
+			right.pop();
+		}
+		return null;
 	};
 
 	this.rpn1 = function (input) {
@@ -112,7 +133,6 @@ angular.module('SacredGeometry').service('SacredGeometryService', function () {
 		var token;
 		for (var i = 0; i < input.length; i++) {
 			token = input[i];
-			console.log(token);
 			if (this.isNumeric(token)) {
 				resultStack.push(token);
 			} else {
@@ -125,7 +145,10 @@ angular.module('SacredGeometry').service('SacredGeometryService', function () {
 				} else if (token === "*") {
 					resultStack.push(parseInt(a) * parseInt(b));
 				} else if (token === "/") {
-					resultStack.push(parseInt(b) / parseInt(a));
+					if (parseInt(b) % parseInt(a) == 0)
+						resultStack.push(parseInt(b) / parseInt(a));
+					else
+						return -1;
 				} else if (token === "^") {
 					resultStack.push(Math.pow(parseInt(b), parseInt(a)));
 				}
@@ -136,5 +159,6 @@ angular.module('SacredGeometry').service('SacredGeometryService', function () {
 		}
 		return resultStack.pop();
 	};
+
 
 });

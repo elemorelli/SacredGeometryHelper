@@ -64,8 +64,8 @@ describe('RPNTests', function () {
 	});
 
 	it('should generate a correct solution', function () {
-		//var solution = scope.generatePostfixSolution(["1", "2", "+"]);
-		//expect(solution).toEqual(["3", "2", "+", "1", "-"]);
+		var solution = scope.generatePostfixSolution(["1", "2", "+"]);
+		expect(solution).toEqual(["3", "2", "+", "1", "-"]);
 	});
 
 

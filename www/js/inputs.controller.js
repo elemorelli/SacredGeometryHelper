@@ -30,21 +30,22 @@ angular.module('SacredGeometry').controller('InputsController', function ($scope
 			values.push("" + $scope.inputs.dice[i]);
 		}
 
-		var postfixSolution = $scope.generatePostfixSolution(values);
-		$scope.translateSolution(postfixSolution);
+		var postfixSolution = $scope.generatePostfixSolution(values, $scope.inputs.spellLevel);
+
+		if (postfixSolution != null) {
+			var result = SacredGeometryService.rpn2(postfixSolution);
+			$scope.inputs.solution = $scope.translateSolution(postfixSolution) + " = " + result;
+		} else {
+			$scope.inputs.solution = "No solution found";
+		}
 	};
 
-
-	$scope.generatePostfixSolution = function (values) {
-		return SacredGeometryService.generatePostfixSolution(values);
+	$scope.generatePostfixSolution = function (values, spellLevel) {
+		return SacredGeometryService.generatePostfixSolution(values, spellLevel);
 	};
-
 
 	$scope.translateSolution = function (postfixSolution) {
-		$scope.inputs.solution = SacredGeometryService.postfix2infix(postfixSolution);
+		return SacredGeometryService.postfix2infix(postfixSolution);
 	};
-
-	$scope.rpn1 = SacredGeometryService.rpn1;
-	$scope.rpn2 = SacredGeometryService.rpn2;
 
 });
