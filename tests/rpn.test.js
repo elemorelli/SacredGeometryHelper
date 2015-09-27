@@ -6,7 +6,7 @@ describe('RPNTests', function () {
 
 	beforeEach(inject(function ($rootScope, $controller) {
 		scope = $rootScope.$new();
-		$controller('InputsController', {$scope: scope});
+		$controller('InputController', {$scope: scope});
 	}));
 
 	it('should translate a postfix solution to infix correctly', function () {

@@ -1,4 +1,4 @@
-angular.module('SacredGeometry').controller('InputsController', function ($scope, SacredGeometryService) {
+angular.module('SacredGeometry').controller('InputController', function ($scope, $ionicLoading, $timeout, SacredGeometryService) {
 
 	$scope.inputs = {};
 
@@ -29,15 +29,32 @@ angular.module('SacredGeometry').controller('InputsController', function ($scope
 		for (var i = 0; i < $scope.inputs.dice.length && i < $scope.inputs.engineeringRanks; i++) {
 			values.push("" + $scope.inputs.dice[i]);
 		}
+		values.sort();
+		values.reverse();
 
-		var postfixSolution = $scope.generatePostfixSolution(values, $scope.inputs.spellLevel);
+		$ionicLoading.show({
+			content: 'Loading',
+			animation: 'fade-in',
+			showBackdrop: false,
+			showDelay: 0
+		});
 
-		if (postfixSolution != null) {
-			var result = SacredGeometryService.rpn2(postfixSolution);
-			$scope.inputs.solution = $scope.translateSolution(postfixSolution) + " = " + result;
-		} else {
-			$scope.inputs.solution = "No solution found";
-		}
+		$timeout(function () {
+			var start = performance.now();
+			var postfixSolution = $scope.generatePostfixSolution(values, $scope.inputs.spellLevel);
+			var end = performance.now();
+			console.log("Execution time: " + (end - start) + " ms");
+			$ionicLoading.hide();
+
+			if (postfixSolution != null) {
+				var result = SacredGeometryService.rpn2(postfixSolution);
+				$scope.inputs.solution = $scope.translateSolution(postfixSolution) + " = " + result;
+			} else {
+				$scope.inputs.solution = "No solution found";
+			}
+		}, 500);
+
+
 	};
 
 	$scope.generatePostfixSolution = function (values, spellLevel) {

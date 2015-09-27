@@ -11,13 +11,14 @@
 	<script src="cordova.js"></script>
 
 	<script src="js/app.module.js"></script>
-	<script src="js/inputs.controller.js"></script>
+	<script src="js/input.directive.js"></script>
+	<script src="js/input.controller.js"></script>
 	<script src="js/sacredgeometry.service.js"></script>
 
 </head>
 <body ng-app="SacredGeometry">
 
-<ion-pane ng-controller="InputsController">
+<ion-pane ng-controller="InputController">
 	<ion-header-bar class="bar-stable">
 		<h1 class="title">Sacred Geometry Helper</h1>
 	</ion-header-bar>
@@ -49,29 +50,23 @@
 			</div>
 		</ion-item>
 
-		<ion-item>
-			<ion-scroll direction="x">
-				<ion-list>
-					<div ng-repeat="n in [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20] track by $index"
-							 style="display: inline-block;">
-						<!--<ion-item ng-show="$index < inputs.engineeringRanks">-->
-						<div ng-show="$index < inputs.engineeringRanks" style="height: 70px; width: 100px;">
-							<div class="vertical-range range">
-								<input type="range" name="dice{{$index}}" min="1" max="6" ng-model="inputs.dice[$index]"
-											 style="width: 200px;">
-							</div>
-							<span>{{inputs.dice[$index]}}</span>
-						</div>
+		<ion-item class="item-text-wrap">
+			<ion-list>
+				<div ng-repeat="n in [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20] track by $index"
+						 style="display: inline-block;">
+					<div ng-show="$index < inputs.engineeringRanks">
+						<input type="tel" class="diceInput" name="dice{{$index}}" pattern="[0-6]"
+									 ng-model="inputs.dice[$index]" dice-digit>
 					</div>
-				</ion-list>
-			</ion-scroll>
+				</div>
+			</ion-list>
 		</ion-item>
 
 		<ion-item>
 			<h2>Numbers to match: {{inputs.numbersToMatch}}</h2>
 		</ion-item>
 
-		<ion-item>
+		<ion-item class="item-text-wrap">
 			<h2>Solution:</h2>
 			<span>{{inputs.solution}}</span>
 		</ion-item>

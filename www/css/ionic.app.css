@@ -7700,7 +7700,10 @@ a.button {
   -webkit-transition-duration: 0s;
   transition-duration: 0s; }
 
-.vertical-range.range {
-  -ms-transform: rotate(-90deg);
-  -webkit-transform: rotate(-90deg);
-  transform: rotate(-90deg); }
+.diceInput {
+  border: 2px inset !important;
+  font-size: xx-large !important;
+  width: 48px !important;
+  min-height: 54px !important;
+  text-align: center;
+  margin: 8px; }
