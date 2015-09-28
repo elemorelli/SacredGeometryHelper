@@ -2,11 +2,12 @@ angular.module('SacredGeometry').controller('InputController', function ($scope,
 
 	$scope.inputs = {};
 
-	$scope.inputs.engineeringRanks = 2;
+	$scope.inputs.engineeringRanks = localStorage.getItem('engineeringRanks') || 2;
 
-	$scope.inputs.spellLevel = 1;
+	$scope.inputs.spellLevel = localStorage.getItem('spellLevel') || 1;
 
-	$scope.inputs.dice = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
+	//$scope.inputs.dice = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
+	$scope.inputs.dice = ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""];
 
 	$scope.inputs.numbersToMatch = "";
 
@@ -25,6 +26,10 @@ angular.module('SacredGeometry').controller('InputController', function ($scope,
 	};
 
 	$scope.solve = function () {
+
+		localStorage.setItem('engineeringRanks', $scope.inputs.engineeringRanks);
+		localStorage.setItem('spellLevel', $scope.inputs.spellLevel);
+
 		var values = [];
 		for (var i = 0; i < $scope.inputs.dice.length && i < $scope.inputs.engineeringRanks; i++) {
 			values.push("" + $scope.inputs.dice[i]);
