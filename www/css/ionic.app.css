@@ -7706,4 +7706,5 @@ a.button {
   width: 48px !important;
   min-height: 54px !important;
   text-align: center;
-  margin: 8px; }
+  margin: 8px;
+  line-height: initial !important; }
