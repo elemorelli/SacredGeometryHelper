@@ -19,6 +19,16 @@ angular.module('SacredGeometry').controller('InputController', function ($scope,
 
 	$scope.updateNumbersToMatch();
 
+	$scope.isReady = function () {
+		for (var i = 0; i < $scope.inputs.engineeringRanks; i++) {
+			if ($scope.inputs.dice[i] == "")
+				return false;
+		}
+		return true;
+	};
+
+	$scope.hasSolution = false;
+
 	$scope.random = function () {
 		for (var i = 0; i < $scope.inputs.dice.length; i++) {
 			$scope.inputs.dice[i] = Math.floor(Math.random() * (6 - 1) + 1);
@@ -54,10 +64,12 @@ angular.module('SacredGeometry').controller('InputController', function ($scope,
 			if (postfixSolution != null) {
 				var result = SacredGeometryService.resolvePostfixExpression(postfixSolution);
 				$scope.inputs.solution = $scope.translateSolution(postfixSolution) + " = " + result;
+				$scope.hasSolution = true;
 			} else {
 				$scope.inputs.solution = "No solution found";
+				$scope.hasSolution = false;
 			}
-		}, 500);
+		}, 200);
 
 
 	};

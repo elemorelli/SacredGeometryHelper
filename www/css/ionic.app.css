@@ -7708,3 +7708,6 @@ a.button {
   text-align: center;
   margin: 8px;
   line-height: initial !important; }
+
+.solution {
+  font-size: x-large; }

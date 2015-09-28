@@ -51,6 +51,7 @@
 		</ion-item>
 
 		<ion-item class="item-text-wrap">
+			<h2>Dice rolled:</h2>
 			<ion-list>
 				<div ng-repeat="n in [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20] track by $index"
 						 style="display: inline-block;">
@@ -63,22 +64,24 @@
 		</ion-item>
 
 		<ion-item>
-			<h2>Numbers to match: {{inputs.numbersToMatch}}</h2>
+			<h2>Prime numbers to match: {{inputs.numbersToMatch.join(", ")}}</h2>
 		</ion-item>
 
 		<ion-item class="item-text-wrap">
-			<h2>Solution:</h2>
-			<span>{{inputs.solution}}</span>
+			<h2>Expression:</h2>
+			<span class="solution" ng-class="hasSolution ? 'positive' : 'assertive'">{{inputs.solution}}</span>
 		</ion-item>
-
 	</ion-content>
 
 	<ion-footer-bar class="bar-stable">
 		<div class="button-bar">
-			<button class="button" ng-click="random()">Random</button>
-			<button class="button" ng-click="solve()">Solve!</button>
+			<button class="button button-positive" ng-click="random()">Random</button>
+			<button class="button" ng-class="isReady() ? 'button-positive' : 'button-assertive'" ng-click="solve()"
+							ng-disabled="!isReady()">Solve!
+			</button>
 		</div>
 	</ion-footer-bar>
+
 </ion-pane>
 </body>
 </html>
